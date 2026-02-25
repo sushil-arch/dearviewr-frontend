@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DearViewr</title>
+
+  <link rel="stylesheet" href="/css/home.css" />
+
+  <style>
+    /* ===== Bottom Nav ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: #000;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #222;
+      z-index: 999;
+    }
+
+    .nav-item {
+      color: #aaa;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #fff;
+    }
+
+    /* 🔥 Center Upload Button */
+    .upload-btn {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(45deg, #ff0050, #00f2ea);
+      color: #fff;
+      font-size: 34px;
+      font-weight: bold;
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: -30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body class="dark">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="logo">📺 DearViewr</div>
+    <div class="top-icons">
+      <span onclick="goUpload()">➕</span>
+      <span>❤</span>
+    </div>
+  </header>
+
+  <!-- REELS CONTAINER -->
+  <main id="reels" class="reels">
+    <div class="loader">Loading reels…</div>
+  </main>
+
+  <!-- RIGHT ACTION BAR -->
+  <div class="action-bar">
+    <button>❤<span>12k</span></button>
+    <button>💬<span>233</span></button>
+    <button>↗</button>
+  </div>
+
+  <!-- 🔥 BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <span class="nav-item active" onclick="goHome()">🏠</span>
+    <span class="nav-item">🔍</span>
+
+    <!-- CENTER UPLOAD -->
+    <span class="upload-btn" onclick="goUpload()">＋</span>
+
+    <span class="nav-item">❤</span>
+
+    <!-- 👤 PROFILE -->
+    <span class="nav-item" onclick="goProfile()">👤</span>
+  </nav>
+
+  <script src="/js/home.js"></script>
+
+  <!-- 🔐 Navigation Logic -->
+  <script>
+    function goHome() {
+      window.location.href = "/";
+    }
+
+    function goUpload() {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        window.location.href = "/creator/login.html";
+      } else {
+        window.location.href = "/creator/upload.html";
+      }
+    }
+
+    function goProfile() {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        window.location.href = "/auth/login.html";
+      } else {
+        window.location.href = "/profile/index.html";
+      }
+    }
+  </script>
+
+</body>
+</html>

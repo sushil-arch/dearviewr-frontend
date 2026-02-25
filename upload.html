@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DearViewr Studio – Upload</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+    }
+    header {
+      padding: 15px;
+      background: #181818;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    .box {
+      border: 2px dashed #333;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: #121212;
+      border: 1px solid #333;
+      color: #fff;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      background: red;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #progress {
+      height: 5px;
+      background: #333;
+      margin-top: 15px;
+    }
+    #progressBar {
+      height: 5px;
+      width: 0%;
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>DearViewr Studio</header>
+
+<div class="container">
+
+  <h2>Upload video</h2>
+
+  <div class="box">
+    <input type="file" id="videoFile" accept="video/mp4">
+    <p id="fileName">No file selected</p>
+  </div>
+
+  <label>Video title</label>
+  <input type="text" id="title" placeholder="Video title">
+
+  <label>Description</label>
+  <textarea id="desc" rows="4" placeholder="Description"></textarea>
+
+  <label>Thumbnail</label>
+  <input type="file" id="thumbnailFile" accept="image/*">
+
+  <button onclick="startUpload()">UPLOAD</button>
+
+  <div id="progress">
+    <div id="progressBar"></div>
+  </div>
+
+  <p id="status"></p>
+
+</div>
+
+<script src="js/upload.js"></script>
+</body>
+</html>

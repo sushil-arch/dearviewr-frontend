@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Creator Dashboard | DearViewr</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system;
+      background: #0b0b0b;
+      color: #fff;
+    }
+
+    header {
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #222;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    header button {
+      background: #ff0050;
+      border: none;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .card {
+      background: #141414;
+      padding: 16px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 14px;
+      opacity: .7;
+    }
+
+    .card p {
+      margin: 6px 0 0;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .videos {
+      padding: 0 16px 120px;
+    }
+
+    .video-item {
+      background: #141414;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+
+    .video-item h4 {
+      margin: 0 0 6px;
+      font-size: 15px;
+    }
+
+    .meta {
+      font-size: 12px;
+      opacity: .6;
+      margin-bottom: 6px;
+    }
+
+    .status {
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .status.processing { color: orange; }
+    .status.ready { color: #00f2ea; }
+    .status.failed { color: red; }
+
+    /* Floating Upload Button */
+    .upload-fab {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(45deg, #ff0050, #00f2ea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,.6);
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>🎬 Creator Dashboard</h2>
+  <button onclick="logout()">Logout</button>
+</header>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="card">
+    <h3>Total Videos</h3>
+    <p id="totalVideos">0</p>
+  </div>
+  <div class="card">
+    <h3>Total Views</h3>
+    <p id="totalViews">0</p>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section class="videos" id="videoList">
+  <div class="video-item" style="opacity:.6">Loading videos…</div>
+</section>
+
+<!-- UPLOAD BUTTON -->
+<div class="upload-fab" onclick="goUpload()">＋</div>
+
+<script>
+const token = localStorage.getItem("access_token");
+if (!token) {
+  location.href = "/creator/login.html";
+}
+
+function logout() {
+  localStorage.removeItem("access_token");
+  location.href = "/";
+}
+
+function goUpload() {
+  location.href = "/creator/upload.html";
+}
+
+async function loadVideos() {
+  try {
+    const res = await fetch("/api/creator/videos", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    const data = await res.json();
+
+    document.getElementById("totalVideos").innerText = data.total_videos || 0;
+    document.getElementById("totalViews").innerText = data.total_views || 0;
+
+    const list = document.getElementById("videoList");
+    list.innerHTML = "";
+
+    if (!data.videos || data.videos.length === 0) {
+      list.innerHTML = `
+        <div class="video-item" style="opacity:.6">
+          No videos uploaded yet
+        </div>
+      `;
+      return;
+    }
+
+    data.videos.forEach(v => {
+      const div = document.createElement("div");
+      div.className = "video-item";
+
+      const statusClass =
+        v.status === "ready"
+          ? "ready"
+          : v.status === "failed"
+          ? "failed"
+          : "processing";
+
+      div.innerHTML = `
+        <h4>${v.title}</h4>
+        <div class="meta">
+          ${new Date(v.created_at).toLocaleString()} • ${v.play_source.toUpperCase()}
+        </div>
+        <div class="status ${statusClass}">
+          ${v.ui_status ? v.ui_status.toUpperCase() : v.status.toUpperCase()}
+        </div>
+      `;
+
+      // ▶️ Click to play
+      div.onclick = () => {
+        window.location.href = "/player.html?id=" + v.id;
+      };
+
+      list.appendChild(div);
+    });
+  } catch (e) {
+    document.getElementById("videoList").innerHTML = `
+      <div class="video-item" style="color:red">
+        Failed to load videos
+      </div>
+    `;
+  }
+}
+
+loadVideos();
+</script>
+
+</body>
+</html>

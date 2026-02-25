@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile | DearViewr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system;
+      background: #0b0b0b;
+      color: #fff;
+    }
+
+    header {
+      padding: 16px;
+      border-bottom: 1px solid #222;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: linear-gradient(45deg, #ff0050, #00f2ea);
+      color: #fff;
+    }
+
+    .danger {
+      background: #222;
+      color: #ff4d4d;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>👤 My Profile</header>
+
+<div class="container">
+  <button class="btn primary" onclick="becomeCreator()">🎬 Become Creator</button>
+  <button class="btn danger" onclick="logout()">🚪 Logout</button>
+</div>
+
+<script src="/profile/js/profile.js"></script>
+</body>
+</html>

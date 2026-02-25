@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DearViewr</title>
+
+<link rel="stylesheet" href="/css/home.css" />
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: system-ui;
+  overflow: hidden;
+}
+
+/* TOP BAR */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
+  background: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  border-bottom: 1px solid #222;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.top-icons span {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* REELS AREA - PROFESSIONAL SNAP */
+.reels {
+  position: fixed;
+  top: 55px;
+  bottom: 65px;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.reel-item {
+  height: calc(100vh - 120px);
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.reel-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Bottom gradient */
+.reel-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+}
+
+/* Left info */
+.reel-info {
+  position: absolute;
+  bottom: 90px;
+  left: 15px;
+  z-index: 5;
+}
+
+.reel-username {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.reel-caption {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Right actions */
+.reel-actions {
+  position: absolute;
+  right: 10px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 22px;
+  z-index: 5;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: #000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #222;
+  z-index: 1000;
+}
+
+.nav-item {
+  color: #aaa;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  color: #fff;
+}
+
+.upload-btn {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(45deg, #ff0050, #00f2ea);
+  color: #fff;
+  font-size: 34px;
+  font-weight: bold;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="logo">📺 DearViewr</div>
+  <div class="top-icons">
+    <span onclick="goUpload()">➕</span>
+    <span>❤</span>
+  </div>
+</header>
+
+<main id="reels" class="reels">
+  <div style="text-align:center;margin-top:50px;">Loading reels…</div>
+</main>
+
+<nav class="bottom-nav">
+  <span class="nav-item active" onclick="goHome()">🏠</span>
+  <span class="nav-item">🔍</span>
+  <span class="upload-btn" onclick="goUpload()">＋</span>
+  <span class="nav-item">❤</span>
+  <span class="nav-item" onclick="goProfile()">👤</span>
+</nav>
+
+<input
+  type="file"
+  id="fileInput"
+  accept="image/*,video/*"
+  style="display:none"
+  onchange="handleFileSelect(event)"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="/js/reels.js?v=pro"></script>
+
+<script>
+function goHome() { window.location.href = "/"; }
+
+function goProfile() {
+  const token = localStorage.getItem("access_token");
+  if (!token) window.location.href = "/auth/login.html";
+  else window.location.href = "/profile/index.html";
+}
+
+function goUpload() {
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    window.location.href = "/auth/login.html";
+    return;
+  }
+  document.getElementById("fileInput").click();
+}
+
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  sessionStorage.setItem("uploadFileName", file.name);
+  window.location.href = "/creator/upload.html";
+}
+</script>
+
+</body>
+</html>

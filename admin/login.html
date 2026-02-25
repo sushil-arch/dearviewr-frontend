@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login | DearViewr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+
+<body class="admin-login-body">
+
+  <!-- HEADER -->
+  <header class="login-header">
+    <h1>Welcome to <span>DearViewr</span></h1>
+    <p>Admin Login Panel</p>
+  </header>
+
+  <!-- LOGIN CARD -->
+  <div class="login-card">
+    <h2>🔐 Admin Login</h2>
+
+    <!-- 🔥 FORM START -->
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Admin Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+
+      <button type="submit">Login</button>
+    </form>
+    <!-- 🔥 FORM END -->
+
+    <p id="error" class="error"></p>
+  </div>
+
+  <script src="js/admin-auth.js"></script>
+</body>
+</html>

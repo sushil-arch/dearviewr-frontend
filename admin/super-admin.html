@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Super Admin | DearViewr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body class="admin-body">
+
+<header class="top-nav">
+  <h2>DearViewr <span>Super Admin</span></h2>
+  <button onclick="logout()">Logout</button>
+</header>
+
+<div class="admin-layout">
+
+  <aside class="sidebar">
+    <a href="super-admin.html" class="active">Overview</a>
+    <a href="#">Admins</a>
+    <a href="#">Creators</a>
+    <a href="#">Users</a>
+    <a href="#">System</a>
+    <a href="#">Danger Zone</a>
+  </aside>
+
+  <main class="content">
+    <h1>Platform Overview</h1>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h3>Total Users</h3>
+        <p id="users">0</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Total Creators</h3>
+        <p id="creators">0</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Total Videos</h3>
+        <p id="videos">0</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Queue Jobs</h3>
+        <p id="jobs">0</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:30px">Quick Controls</h2>
+
+    <div class="actions">
+      <button class="btn primary">➕ Create Admin</button>
+      <button class="btn secondary">⚠ Suspend Creator</button>
+      <button class="btn danger">🛑 System Lock</button>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/super-admin.js"></script>
+</body>
+</html>

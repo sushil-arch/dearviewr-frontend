@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Upload | DearViewr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background:#111; color:#fff; font-family:Arial; padding:20px }
+    input, textarea, select, button {
+      width:100%; margin:8px 0; padding:10px;
+      border-radius:4px; border:none;
+    }
+    button { background:red; color:white; font-weight:bold }
+  </style>
+</head>
+
+<body>
+
+<h2>🎬 Admin Upload (Shorts)</h2>
+
+<form id="uploadForm">
+  <input type="text" id="title" placeholder="Video Title" required>
+
+  <textarea id="description" placeholder="Description"></textarea>
+
+  <select id="channel">
+    <option value="1">DearViewr Official</option>
+    <!-- Future: dynamically load channels -->
+  </select>
+
+  <input type="file" id="videoFile" accept="video/mp4" required>
+
+  <button type="submit">Upload</button>
+</form>
+
+<p id="status"></p>
+
+<script src="js/admin-upload.js"></script>
+
+</body>
+</html>

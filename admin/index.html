@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | DearViewr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    .sidebar {
+      width: 220px;
+      min-height: 100vh;
+      background: #020617;
+    }
+
+    .sidebar a {
+      color: #cbd5f5;
+      text-decoration: none;
+      display: block;
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
+
+    .sidebar a:hover,
+    .sidebar .active {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .card {
+      background: #111827;
+      border: none;
+      border-radius: 14px;
+    }
+
+    .topbar {
+      background: #020617;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Topbar -->
+<nav class="navbar navbar-dark topbar px-3">
+  <span class="navbar-brand">DearViewr Admin</span>
+  <span class="text-light">👤 Admin</span>
+</nav>
+
+<div class="d-flex">
+
+  <!-- Sidebar -->
+  <div class="sidebar p-3">
+    <h4 class="text-primary mb-4">ADMIN</h4>
+    <a href="#" class="active">Dashboard</a>
+    <a href="videos.html">Videos</a>
+    <a href="upload.html">Upload</a>
+    <a href="#">Users</a>
+    <a href="#">Payments</a>
+    <a href="#">Settings</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-grow-1 p-4">
+
+    <!-- Stats Cards -->
+    <div class="row g-3">
+      <div class="col-md-3 col-6">
+        <div class="card p-3 text-center">
+          <h6>Total Videos</h6>
+          <h2 id="totalVideos">0</h2>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="card p-3 text-center">
+          <h6>Total Views</h6>
+          <h2 id="totalViews">0</h2>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="card p-3 text-center">
+          <h6>Storage Used</h6>
+          <h2>620 GB</h2>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-6">
+        <div class="card p-3 text-center">
+          <h6>Revenue</h6>
+          <h2>₹45,300</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card mt-4 p-3">
+      <h5>Recent Uploads</h5>
+      <table class="table table-dark table-borderless mt-3">
+        <thead>
+          <tr>
+            <th>Video</th>
+            <th>Views</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sample Video 1</td>
+            <td>1,230</td>
+            <td class="text-success">Active</td>
+          </tr>
+          <tr>
+            <td>Sample Video 2</td>
+            <td>540</td>
+            <td class="text-warning">Processing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

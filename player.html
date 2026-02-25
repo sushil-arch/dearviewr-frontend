@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DearViewr Player</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+
+<video id="video" controls autoplay width="100%"></video>
+<p id="status">Loading…</p>
+
+<script>
+const videoId = new URLSearchParams(window.location.search).get("id");
+const video = document.getElementById("video");
+const status = document.getElementById("status");
+
+let currentSource = null;
+
+async function loadVideo() {
+  const res = await fetch(`/api/video/${videoId}/play`);
+  const data = await res.json();
+
+  if (data.play_source === currentSource) return;
+
+  currentSource = data.play_source;
+
+  if (data.play_source === "hls" && Hls.isSupported()) {
+    status.innerText = "HD Streaming (HLS)";
+    const hls = new Hls();
+    hls.loadSource(data.url);
+    hls.attachMedia(video);
+  } else {
+    status.innerText = "Instant Playback";
+    video.src = data.url;
+  }
+}
+
+loadVideo();
+
+// 🔁 Auto-upgrade RAW → HLS
+setInterval(loadVideo, 5000);
+</script>
+
+</body>
+</html>
