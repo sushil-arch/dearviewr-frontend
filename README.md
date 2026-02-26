@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" width="220"/>
+  <img src="assets/logo.png" width="360"/>
 </p>
 
 <h1 align="center">DearViewr</h1>
