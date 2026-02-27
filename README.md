@@ -83,3 +83,4 @@ Major updates coming soon.
 <p align="center">
   Made with ❤️ for the future of streaming.
 </p>
+refresh auto merge workflow
