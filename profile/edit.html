@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Profile | DearViewr</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: system-ui;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: none;
+  background: #111;
+  color: #fff;
+}
+
+textarea {
+  resize: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: linear-gradient(45deg, #ff0050, #00f2ea);
+  color: #fff;
+}
+
+.back-btn {
+  background: #222;
+  color: #fff;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Edit Profile</h2>
+
+<div class="input-group">
+  <label>Username</label>
+  <input type="text" id="username">
+</div>
+
+<div class="input-group">
+  <label>Bio</label>
+  <textarea id="bio" rows="4"></textarea>
+</div>
+
+<button class="btn save-btn" onclick="saveProfile()">Save Changes</button>
+<button class="btn back-btn" onclick="goBack()">Cancel</button>
+
+<script>
+const API_BASE = "https://dearviewr.in/api";
+
+async function loadProfile() {
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    window.location.href = "/auth/login.html";
+    return;
+  }
+
+  const res = await fetch(`${API_BASE}/profile`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+  const data = await res.json();
+
+  document.getElementById("username").value = data.username || "";
+  document.getElementById("bio").value = data.bio || "";
+}
+
+async function saveProfile() {
+  const token = localStorage.getItem("access_token");
+
+  const username = document.getElementById("username").value;
+  const bio = document.getElementById("bio").value;
+
+  const res = await fetch(`${API_BASE}/profile`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ username, bio })
+  });
+
+  if (res.ok) {
+    alert("Profile updated successfully!");
+    window.location.href = "/profile/index.html";
+  } else {
+    alert("Update failed");
+  }
+}
+
+function goBack() {
+  window.location.href = "/profile/index.html";
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>
