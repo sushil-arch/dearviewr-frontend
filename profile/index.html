@@ -1,60 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Profile | DearViewr</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Profile | DearViewr</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system;
-      background: #0b0b0b;
-      color: #fff;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system;
+  background: #000;
+  color: #fff;
+}
 
-    header {
-      padding: 16px;
-      border-bottom: 1px solid #222;
-      font-size: 18px;
-      font-weight: bold;
-    }
+/* Header */
+header {
+  padding: 16px;
+  border-bottom: 1px solid #222;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
 
-    .container {
-      padding: 16px;
-    }
+/* Profile Top Section */
+.profile-top {
+  text-align: center;
+  padding: 30px 20px 20px;
+}
 
-    .btn {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ff0050;
+  box-shadow: 0 0 20px rgba(255,0,80,0.5);
+}
 
-    .primary {
-      background: linear-gradient(45deg, #ff0050, #00f2ea);
-      color: #fff;
-    }
+.username {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 12px;
+}
 
-    .danger {
-      background: #222;
-      color: #ff4d4d;
-    }
-  </style>
+.bio {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 6px;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.stat-box {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Buttons */
+.actions {
+  margin-top: 30px;
+  padding: 0 30px;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.primary {
+  background: linear-gradient(45deg, #ff0050, #00f2ea);
+  color: #fff;
+}
+
+.secondary {
+  background: #222;
+  color: #fff;
+}
+
+.danger {
+  background: #111;
+  color: #ff4d4d;
+  border: 1px solid #333;
+}
+</style>
 </head>
 
 <body>
 
 <header>👤 My Profile</header>
 
-<div class="container">
-  <button class="btn primary" onclick="becomeCreator()">🎬 Become Creator</button>
+<div class="profile-top">
+  <img src="/assets/logo.png" id="avatar" class="avatar">
+  <div class="username" id="username">Loading...</div>
+  <div class="bio" id="bio">Loading bio...</div>
+
+  <div class="stats">
+    <div class="stat-box">
+      <div class="stat-number" id="videoCount">0</div>
+      <div class="stat-label">Videos</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number" id="viewCount">0</div>
+      <div class="stat-label">Views</div>
+    </div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn primary" onclick="editProfile()">✏ Edit Profile</button>
+  <button class="btn secondary" onclick="becomeCreator()">🎬 Become Creator</button>
   <button class="btn danger" onclick="logout()">🚪 Logout</button>
 </div>
 
-<script src="/profile/js/profile.js"></script>
+<script>
+const API_BASE = "https://dearviewr.in/api";
+
+async function loadProfile() {
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    window.location.href = "/auth/login.html";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await res.json();
+
+    document.getElementById("username").innerText = data.username || "User";
+    document.getElementById("bio").innerText = data.bio || "No bio yet";
+    document.getElementById("videoCount").innerText = data.total_videos || 0;
+    document.getElementById("viewCount").innerText = data.total_views || 0;
+
+  } catch (err) {
+    console.error("Profile load failed", err);
+  }
+}
+
+function editProfile() {
+  window.location.href = "/profile/edit.html";
+}
+
+function becomeCreator() {
+  window.location.href = "/creator/dashboard.html";
+}
+
+function logout() {
+  localStorage.removeItem("access_token");
+  window.location.href = "/auth/login.html";
+}
+
+loadProfile();
+</script>
+
 </body>
 </html>
