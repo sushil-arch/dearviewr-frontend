@@ -3,27 +3,43 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>DearViewr</title>
+
+<!-- PWA / App Mode -->
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="/manifest.json">
+
+<!-- Founder Credit (Visible in Source Code) -->
+<meta name="author" content="Sushil - Founder of DearViewr">
 
 <link rel="stylesheet" href="/css/home.css" />
 
 <style>
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   background: #000;
   color: #fff;
-  font-family: system-ui;
+  font-family: system-ui, -apple-system, sans-serif;
   overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-y;
 }
 
-/* TOP BAR */
+/* ===== TOP BAR ===== */
 .topbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 55px;
-  background: #000;
+  height: 60px;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.7);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,22 +48,21 @@ body {
   z-index: 1000;
 }
 
-.logo {
-  font-size: 18px;
-  font-weight: bold;
+.logo img {
+  height: 28px;
 }
 
 .top-icons span {
-  margin-left: 15px;
+  margin-left: 18px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 22px;
 }
 
-/* REELS AREA - PROFESSIONAL SNAP */
+/* ===== REELS AREA ===== */
 .reels {
   position: fixed;
-  top: 55px;
-  bottom: 65px;
+  top: 60px;
+  bottom: 70px;
   left: 0;
   right: 0;
   overflow-y: scroll;
@@ -56,8 +71,12 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+.reels::-webkit-scrollbar {
+  display: none;
+}
+
 .reel-item {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 130px);
   scroll-snap-align: start;
   position: relative;
 }
@@ -68,7 +87,7 @@ body {
   object-fit: cover;
 }
 
-/* Bottom gradient */
+/* Gradient Overlay */
 .reel-gradient {
   position: absolute;
   bottom: 0;
@@ -78,10 +97,10 @@ body {
   background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
 }
 
-/* Left info */
+/* Left Info */
 .reel-info {
   position: absolute;
-  bottom: 90px;
+  bottom: 95px;
   left: 15px;
   z-index: 5;
 }
@@ -96,26 +115,27 @@ body {
   opacity: 0.9;
 }
 
-/* Right actions */
+/* Right Actions */
 .reel-actions {
   position: absolute;
-  right: 10px;
+  right: 12px;
   bottom: 120px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
   font-size: 22px;
   z-index: 5;
 }
 
-/* BOTTOM NAV */
+/* ===== BOTTOM NAV ===== */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 65px;
-  background: #000;
+  height: 70px;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.8);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -134,17 +154,17 @@ body {
 }
 
 .upload-btn {
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   background: linear-gradient(45deg, #ff0050, #00f2ea);
   color: #fff;
   font-size: 34px;
   font-weight: bold;
-  border-radius: 14px;
+  border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -30px;
+  margin-top: -35px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.6);
   cursor: pointer;
 }
@@ -155,8 +175,8 @@ body {
 
 <header class="topbar">
   <div class="logo">
-      <img src="/assets/logo.png" alt="DearViewr Logo" />
-      </div>
+    <img src="/assets/logo.png" alt="DearViewr Logo" />
+  </div>
   <div class="top-icons">
     <span onclick="goUpload()">➕</span>
     <span>❤</span>
@@ -184,7 +204,7 @@ body {
 />
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="/js/reels.js?v=pro"></script>
+<script src="/js/reels.js?v=ultra"></script>
 
 <script>
 function goHome() { window.location.href = "/"; }
@@ -210,6 +230,13 @@ function handleFileSelect(event) {
   sessionStorage.setItem("uploadFileName", file.name);
   window.location.href = "/creator/upload.html";
 }
+
+/* Hide mobile address bar */
+window.addEventListener("load", function () {
+  setTimeout(() => {
+    window.scrollTo(0, 1);
+  }, 100);
+});
 </script>
 
 </body>
