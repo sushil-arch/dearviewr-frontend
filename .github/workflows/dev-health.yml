@@ -1,0 +1,16 @@
+name: Dev Health Check
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Dev Health Endpoint
+        run: |
+          sleep 10
+          curl -f http://dev.dearviewr.in/api/health
