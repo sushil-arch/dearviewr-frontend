@@ -1,0 +1,25 @@
+name: Auto Merge Dev to Main
+
+on:
+  workflow_run:
+    workflows: ["Dev Health Check"]
+    types:
+      - completed
+
+jobs:
+  merge:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Merge Dev into Main
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git merge origin/dev --no-edit
+          git push origin main
