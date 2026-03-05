@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<title>DearViewr Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+
+body{
+margin:0;
+font-family:system-ui;
+background:#0b0b0b;
+color:#fff;
+display:flex;
+flex-direction:column;
+height:100vh;
+}
+
+header{
+padding:14px;
+background:#121212;
+border-bottom:1px solid #222;
+font-size:16px;
+font-weight:bold;
+}
+
+#chat{
+flex:1;
+overflow-y:auto;
+padding:16px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.msg{
+max-width:70%;
+padding:10px 14px;
+border-radius:14px;
+font-size:14px;
+}
+
+.me{
+align-self:flex-end;
+background:linear-gradient(45deg,#ff0050,#ff4080);
+}
+
+.other{
+align-self:flex-start;
+background:#1c1c1c;
+}
+
+#inputArea{
+display:flex;
+padding:10px;
+border-top:1px solid #222;
+background:#121212;
+}
+
+#msg{
+flex:1;
+padding:12px;
+border:none;
+outline:none;
+border-radius:10px;
+background:#1a1a1a;
+color:#fff;
+}
+
+#send{
+margin-left:10px;
+padding:12px 16px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:linear-gradient(45deg,#ff0050,#00f2ea);
+color:#fff;
+}
+
+</style></head><body><header>💬 DearViewr Chat</header><div id="chat"></div><div id="inputArea">
+<input id="msg" placeholder="Type message...">
+<button id="send">Send</button>
+</div><script>
+
+const token = localStorage.getItem("token")
+const receiver = prompt("Enter receiver user id")
+
+const socket = new WebSocket(
+`wss://dearviewr.in/api/ws/chat?token=${token}`
+)
+
+const chat = document.getElementById("chat")
+const input = document.getElementById("msg")
+const sendBtn = document.getElementById("send")
+
+function addMessage(text,type){
+
+const div=document.createElement("div")
+div.className="msg "+type
+div.innerText=text
+
+chat.appendChild(div)
+chat.scrollTop=chat.scrollHeight
+
+}
+
+sendBtn.onclick=sendMessage
+
+input.addEventListener("keypress",e=>{
+if(e.key==="Enter") sendMessage()
+})
+
+function sendMessage(){
+
+const text=input.value.trim()
+
+if(!text) return
+
+socket.send(JSON.stringify({
+to:receiver,
+message:text
+}))
+
+addMessage(text,"me")
+
+input.value=""
+
+}
+
+socket.onmessage=(event)=>{
+
+const data=JSON.parse(event.data)
+
+addMessage(data.message,"other")
+
+}
+
+</script></body>
+</html>
