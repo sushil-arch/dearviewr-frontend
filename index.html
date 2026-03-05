@@ -6,14 +6,12 @@
 
 <title>DearViewr</title>
 
-<!-- PWA / App Mode -->
 <meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="/manifest.json">
 
-<!-- Founder Credit (Visible in Source Code) -->
 <meta name="author" content="Sushil - Founder of DearViewr">
 
 <link rel="stylesheet" href="/css/home.css" />
@@ -87,7 +85,6 @@ html, body {
   object-fit: cover;
 }
 
-/* Gradient Overlay */
 .reel-gradient {
   position: absolute;
   bottom: 0;
@@ -97,7 +94,6 @@ html, body {
   background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
 }
 
-/* Left Info */
 .reel-info {
   position: absolute;
   bottom: 95px;
@@ -115,7 +111,6 @@ html, body {
   opacity: 0.9;
 }
 
-/* Right Actions */
 .reel-actions {
   position: absolute;
   right: 12px;
@@ -177,9 +172,10 @@ html, body {
   <div class="logo">
     <img src="/assets/logo.png" alt="DearViewr Logo" />
   </div>
+
   <div class="top-icons">
     <span onclick="goUpload()">➕</span>
-    <span>❤</span>
+    <span onclick="goChat()">💬</span>
   </div>
 </header>
 
@@ -188,11 +184,17 @@ html, body {
 </main>
 
 <nav class="bottom-nav">
+
   <span class="nav-item active" onclick="goHome()">🏠</span>
+
   <span class="nav-item">🔍</span>
+
+  <span class="nav-item" onclick="goChat()">💬</span>
+
   <span class="upload-btn" onclick="goUpload()">＋</span>
-  <span class="nav-item">❤</span>
+
   <span class="nav-item" onclick="goProfile()">👤</span>
+
 </nav>
 
 <input
@@ -207,36 +209,65 @@ html, body {
 <script src="/js/reels.js?v=ultra"></script>
 
 <script>
-function goHome() { window.location.href = "/"; }
 
-function goProfile() {
-  const token = localStorage.getItem("access_token");
-  if (!token) window.location.href = "/auth/login.html";
-  else window.location.href = "/profile/index.html";
+function goHome() {
+  window.location.href = "/";
 }
 
-function goUpload() {
+function goChat() {
+
   const token = localStorage.getItem("access_token");
+
   if (!token) {
     window.location.href = "/auth/login.html";
     return;
   }
+
+  window.location.href = "/chat/";
+}
+
+function goProfile() {
+
+  const token = localStorage.getItem("access_token");
+
+  if (!token)
+    window.location.href = "/auth/login.html";
+  else
+    window.location.href = "/profile/index.html";
+}
+
+function goUpload() {
+
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    window.location.href = "/auth/login.html";
+    return;
+  }
+
   document.getElementById("fileInput").click();
 }
 
 function handleFileSelect(event) {
+
   const file = event.target.files[0];
   if (!file) return;
+
   sessionStorage.setItem("uploadFileName", file.name);
+
   window.location.href = "/creator/upload.html";
 }
 
 /* Hide mobile address bar */
+
 window.addEventListener("load", function () {
+
   setTimeout(() => {
     window.scrollTo(0, 1);
   }, 100);
+
 });
+
 </script>
 
 </body>
