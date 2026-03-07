@@ -1,182 +1,214 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Profile | DearViewr</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Profile</title><style>
 
-<style>
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system;
-  background: #000;
-  color: #fff;
+body{
+background:#000;
+color:#fff;
+font-family:system-ui;
+margin:0;
+padding:20px;
+text-align:center;
 }
 
-/* Header */
-header {
-  padding: 16px;
-  border-bottom: 1px solid #222;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
+.profile-card{
+max-width:420px;
+margin:auto;
 }
 
-/* Profile Top Section */
-.profile-top {
-  text-align: center;
-  padding: 30px 20px 20px;
+.avatar{
+width:120px;
+height:120px;
+border-radius:50%;
+background:#111;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:auto;
+font-size:40px;
 }
 
-.avatar {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #ff0050;
-  box-shadow: 0 0 20px rgba(255,0,80,0.5);
+.username{
+font-size:22px;
+margin-top:10px;
 }
 
-.username {
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 12px;
+.bio{
+font-size:14px;
+opacity:0.8;
+margin-bottom:15px;
 }
 
-.bio {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-top: 6px;
+.stats{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-bottom:20px;
 }
 
-/* Stats */
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 20px;
+.stat{
+text-align:center;
 }
 
-.stat-box {
-  text-align: center;
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
 }
 
-.stat-number {
-  font-size: 18px;
-  font-weight: bold;
+.edit{
+background:linear-gradient(45deg,#ff0050,#00f2ea);
+color:#fff;
 }
 
-.stat-label {
-  font-size: 12px;
-  opacity: 0.6;
+.creator{
+background:#222;
+color:#fff;
 }
 
-/* Buttons */
-.actions {
-  margin-top: 30px;
-  padding: 0 30px;
+.follow{
+background:#00f2ea;
+color:#000;
 }
 
-.btn {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
-  font-weight: bold;
+.message{
+background:#ff0050;
+color:#fff;
 }
 
-.primary {
-  background: linear-gradient(45deg, #ff0050, #00f2ea);
-  color: #fff;
+.logout{
+background:#111;
+color:#ff4444;
 }
 
-.secondary {
-  background: #222;
-  color: #fff;
+</style></head><body><div class="profile-card"><div class="avatar">👤</div><div id="username" class="username">Loading...</div><div id="bio" class="bio">Loading bio...</div><div class="stats"><div class="stat">
+<div id="videoCount">0</div>
+<div>Videos</div>
+</div><div class="stat">
+<div id="viewCount">0</div>
+<div>Views</div>
+</div></div><button class="edit" onclick="editProfile()">✏ Edit Profile</button>
+
+<button class="creator" onclick="becomeCreator()">🎬 Become Creator</button>
+
+<button class="follow" onclick="followUser()">👤 Follow</button>
+
+<button class="message" onclick="messageUser()">💬 Message</button>
+
+<button class="logout" onclick="logout()">🚪 Logout</button>
+
+</div><script>
+
+const API_BASE = "/api"
+
+
+async function loadProfile(){
+
+const token = localStorage.getItem("access_token")
+
+if(!token){
+window.location.href="/auth/login.html"
+return
 }
 
-.danger {
-  background: #111;
-  color: #ff4d4d;
-  border: 1px solid #333;
+try{
+
+const res = await fetch(API_BASE + "/profile",{
+headers:{
+Authorization:"Bearer " + token
 }
-</style>
-</head>
+})
 
-<body>
+const data = await res.json()
 
-<header>👤 My Profile</header>
+document.getElementById("username").innerText = data.username || "User"
 
-<div class="profile-top">
-  <img src="/assets/logo.png" id="avatar" class="avatar">
-  <div class="username" id="username">Loading...</div>
-  <div class="bio" id="bio">Loading bio...</div>
+document.getElementById("bio").innerText = data.bio || "No bio yet"
 
-  <div class="stats">
-    <div class="stat-box">
-      <div class="stat-number" id="videoCount">0</div>
-      <div class="stat-label">Videos</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number" id="viewCount">0</div>
-      <div class="stat-label">Views</div>
-    </div>
-  </div>
-</div>
+document.getElementById("videoCount").innerText = data.total_videos || 0
 
-<div class="actions">
-  <button class="btn primary" onclick="editProfile()">✏ Edit Profile</button>
-  <button class="btn secondary" onclick="becomeCreator()">🎬 Become Creator</button>
-  <button class="btn danger" onclick="logout()">🚪 Logout</button>
-</div>
+document.getElementById("viewCount").innerText = data.total_views || 0
 
-<script>
-const API_BASE = "https://dearviewr.in/api";
+}catch(err){
 
-async function loadProfile() {
-  const token = localStorage.getItem("access_token");
-  if (!token) {
-    window.location.href = "/auth/login.html";
-    return;
-  }
+console.error("Profile load failed",err)
 
-  try {
-    const res = await fetch(`${API_BASE}/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    const data = await res.json();
-
-    document.getElementById("username").innerText = data.username || "User";
-    document.getElementById("bio").innerText = data.bio || "No bio yet";
-    document.getElementById("videoCount").innerText = data.total_videos || 0;
-    document.getElementById("viewCount").innerText = data.total_views || 0;
-
-  } catch (err) {
-    console.error("Profile load failed", err);
-  }
 }
 
-function editProfile() {
-  window.location.href = "/profile/edit.html";
 }
 
-function becomeCreator() {
-  window.location.href = "/creator/dashboard.html";
+
+function editProfile(){
+window.location.href="/profile/edit.html"
 }
 
-function logout() {
-  localStorage.removeItem("access_token");
-  window.location.href = "/auth/login.html";
+
+function becomeCreator(){
+window.location.href="/creator/dashboard.html"
 }
 
-loadProfile();
-</script>
 
-</body>
+async function followUser(){
+
+const token = localStorage.getItem("access_token")
+
+if(!token){
+window.location.href="/auth/login.html"
+return
+}
+
+const params = new URLSearchParams(window.location.search)
+
+const userId = params.get("user")
+
+if(!userId){
+alert("User not found")
+return
+}
+
+await fetch("/api/follow/"+userId,{
+method:"POST",
+headers:{
+Authorization:"Bearer "+token
+}
+})
+
+alert("Followed successfully")
+
+}
+
+
+function messageUser(){
+
+const params = new URLSearchParams(window.location.search)
+
+const userId = params.get("user")
+
+if(!userId){
+alert("User not found")
+return
+}
+
+window.location.href="/chat/room.html?user="+userId
+
+}
+
+
+function logout(){
+
+localStorage.removeItem("access_token")
+
+window.location.href="/auth/login.html"
+
+}
+
+
+loadProfile()
+
+</script></body>
 </html>

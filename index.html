@@ -1,274 +1,292 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>DearViewr</title>
-
-<meta name="theme-color" content="#000000">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>DearViewr</title><meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/manifest.json"><meta name="author" content="Sushil - Founder of DearViewr"><link rel="stylesheet" href="/css/home.css" /><style>
 
-<meta name="author" content="Sushil - Founder of DearViewr">
-
-<link rel="stylesheet" href="/css/home.css" />
-
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #000;
-  color: #fff;
-  font-family: system-ui, -apple-system, sans-serif;
-  overflow: hidden;
-  overscroll-behavior: none;
-  touch-action: pan-y;
+html,body{
+margin:0;
+padding:0;
+background:#000;
+color:#fff;
+font-family:system-ui;
+height:100%;
+overflow:hidden;
 }
 
-/* ===== TOP BAR ===== */
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  backdrop-filter: blur(10px);
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
-  border-bottom: 1px solid #222;
-  z-index: 1000;
+/* ===== TOPBAR ===== */
+
+.topbar{
+position:fixed;
+top:0;
+left:0;
+right:0;
+height:60px;
+background:rgba(0,0,0,0.8);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 15px;
+border-bottom:1px solid #222;
+z-index:1000;
 }
 
-.logo img {
-  height: 28px;
+.logo img{
+height:28px;
 }
 
-.top-icons span {
-  margin-left: 18px;
-  cursor: pointer;
-  font-size: 22px;
+.top-icons span{
+font-size:22px;
+margin-left:15px;
+cursor:pointer;
+}
+
+/* ===== STORIES ===== */
+
+.stories{
+position:fixed;
+top:60px;
+left:0;
+right:0;
+height:90px;
+display:flex;
+gap:14px;
+overflow-x:auto;
+padding:10px;
+background:#000;
+border-bottom:1px solid #222;
+}
+
+.story{
+text-align:center;
+min-width:70px;
+}
+
+.story img{
+width:60px;
+height:60px;
+border-radius:50%;
+border:2px solid #ff0050;
+}
+
+.story p{
+font-size:12px;
+margin-top:4px;
 }
 
 /* ===== REELS AREA ===== */
-.reels {
-  position: fixed;
-  top: 60px;
-  bottom: 70px;
-  left: 0;
-  right: 0;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+
+.reels{
+position:fixed;
+top:150px;
+bottom:70px;
+left:0;
+right:0;
+overflow-y:scroll;
+scroll-snap-type:y mandatory;
+-webkit-overflow-scrolling:touch;
 }
 
-.reels::-webkit-scrollbar {
-  display: none;
+.reels::-webkit-scrollbar{
+display:none;
 }
 
-.reel-item {
-  height: calc(100vh - 130px);
-  scroll-snap-align: start;
-  position: relative;
+.reel-item{
+height:calc(100vh - 220px);
+scroll-snap-align:start;
+position:relative;
 }
 
-.reel-item video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.reel-item video{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-.reel-gradient {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+/* overlay */
+
+.reel-gradient{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+height:40%;
+background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);
 }
 
-.reel-info {
-  position: absolute;
-  bottom: 95px;
-  left: 15px;
-  z-index: 5;
+.reel-info{
+position:absolute;
+bottom:95px;
+left:15px;
+z-index:5;
 }
 
-.reel-username {
-  font-weight: bold;
-  margin-bottom: 6px;
+.reel-username{
+font-weight:bold;
+margin-bottom:6px;
 }
 
-.reel-caption {
-  font-size: 14px;
-  opacity: 0.9;
+.reel-caption{
+font-size:14px;
+opacity:0.9;
 }
 
-.reel-actions {
-  position: absolute;
-  right: 12px;
-  bottom: 120px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  font-size: 22px;
-  z-index: 5;
+.reel-actions{
+position:absolute;
+right:12px;
+bottom:120px;
+display:flex;
+flex-direction:column;
+gap:22px;
+font-size:22px;
+z-index:5;
 }
 
 /* ===== BOTTOM NAV ===== */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  backdrop-filter: blur(10px);
-  background: rgba(0,0,0,0.8);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid #222;
-  z-index: 1000;
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:70px;
+background:rgba(0,0,0,0.9);
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid #222;
 }
 
-.nav-item {
-  color: #aaa;
-  font-size: 22px;
-  cursor: pointer;
+.nav-item{
+font-size:22px;
+color:#aaa;
+cursor:pointer;
 }
 
-.nav-item.active {
-  color: #fff;
+.nav-item.active{
+color:#fff;
 }
 
-.upload-btn {
-  width: 58px;
-  height: 58px;
-  background: linear-gradient(45deg, #ff0050, #00f2ea);
-  color: #fff;
-  font-size: 34px;
-  font-weight: bold;
-  border-radius: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: -35px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-  cursor: pointer;
+.upload-btn{
+width:58px;
+height:58px;
+background:linear-gradient(45deg,#ff0050,#00f2ea);
+color:#fff;
+font-size:34px;
+font-weight:bold;
+border-radius:16px;
+display:flex;
+justify-content:center;
+align-items:center;
+margin-top:-35px;
+box-shadow:0 6px 20px rgba(0,0,0,0.6);
+cursor:pointer;
 }
-</style>
-</head>
 
-<body>
+</style></head><body><header class="topbar"><div class="logo">
+<img src="/assets/logo.png">
+</div><div class="top-icons"><span onclick="goUpload()">➕</span>
 
-<header class="topbar">
-  <div class="logo">
-    <img src="/assets/logo.png" alt="DearViewr Logo" />
-  </div>
+<span onclick="goChat()">💬</span>
 
-  <div class="top-icons">
-    <span onclick="goUpload()">➕</span>
-    <span onclick="goChat()">💬</span>
-  </div>
-</header>
+</div></header><!-- STORIES / CREATORS --><div class="stories"><div class="story">
+<img src="/assets/avatar.png">
+<p>You</p>
+</div><div class="story">
+<img src="/assets/avatar.png">
+<p>Creator</p>
+</div><div class="story">
+<img src="/assets/avatar.png">
+<p>Creator</p>
+</div><div class="story">
+<img src="/assets/avatar.png">
+<p>Creator</p>
+</div><div class="story">
+<img src="/assets/avatar.png">
+<p>Creator</p>
+</div></div><!-- REELS FEED --><main id="reels" class="reels"><div style="text-align:center;margin-top:50px;">Loading reels…</div></main><!-- BOTTOM NAV --><nav class="bottom-nav"><span class="nav-item active" onclick="goHome()">🏠</span>
 
-<main id="reels" class="reels">
-  <div style="text-align:center;margin-top:50px;">Loading reels…</div>
-</main>
+<span class="nav-item">🔍</span>
 
-<nav class="bottom-nav">
+<span class="nav-item" onclick="goChat()">💬</span>
 
-  <span class="nav-item active" onclick="goHome()">🏠</span>
+<span class="upload-btn" onclick="goUpload()">＋</span>
 
-  <span class="nav-item">🔍</span>
+<span class="nav-item" onclick="goProfile()">👤</span>
 
-  <span class="nav-item" onclick="goChat()">💬</span>
-
-  <span class="upload-btn" onclick="goUpload()">＋</span>
-
-  <span class="nav-item" onclick="goProfile()">👤</span>
-
-</nav>
-
-<input
-  type="file"
-  id="fileInput"
-  accept="image/*,video/*"
-  style="display:none"
-  onchange="handleFileSelect(event)"
+</nav><input
+type="file"
+id="fileInput"
+accept="image/*,video/*"
+style="display:none"
+onchange="handleFileSelect(event)"
 />
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="/js/reels.js?v=ultra"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script><script src="/js/reels.js?v=ultra"></script><script>
 
-<script>
-
-function goHome() {
-  window.location.href = "/";
+function goHome(){
+window.location.href="/"
 }
 
-function goChat() {
+function goChat(){
 
-  const token = localStorage.getItem("access_token");
+const token=localStorage.getItem("access_token")
 
-  if (!token) {
-    window.location.href = "/auth/login.html";
-    return;
-  }
-
-  window.location.href = "/chat/";
+if(!token){
+window.location.href="/auth/login.html"
+return
 }
 
-function goProfile() {
+window.location.href="/chat/"
 
-  const token = localStorage.getItem("access_token");
-
-  if (!token)
-    window.location.href = "/auth/login.html";
-  else
-    window.location.href = "/profile/index.html";
 }
 
-function goUpload() {
+function goProfile(){
 
-  const token = localStorage.getItem("access_token");
+const token=localStorage.getItem("access_token")
 
-  if (!token) {
-    window.location.href = "/auth/login.html";
-    return;
-  }
+if(!token)
+window.location.href="/auth/login.html"
+else
+window.location.href="/profile/index.html"
 
-  document.getElementById("fileInput").click();
 }
 
-function handleFileSelect(event) {
+function goUpload(){
 
-  const file = event.target.files[0];
-  if (!file) return;
+const token=localStorage.getItem("access_token")
 
-  sessionStorage.setItem("uploadFileName", file.name);
-
-  window.location.href = "/creator/upload.html";
+if(!token){
+window.location.href="/auth/login.html"
+return
 }
 
-/* Hide mobile address bar */
+document.getElementById("fileInput").click()
 
-window.addEventListener("load", function () {
+}
 
-  setTimeout(() => {
-    window.scrollTo(0, 1);
-  }, 100);
+function handleFileSelect(event){
 
-});
+const file=event.target.files[0]
 
-</script>
+if(!file) return
 
-</body>
+sessionStorage.setItem("uploadFileName",file.name)
+
+window.location.href="/creator/upload.html"
+
+}
+
+window.addEventListener("load",function(){
+
+setTimeout(()=>{
+window.scrollTo(0,1)
+},100)
+
+})
+
+</script></body>
 </html>
