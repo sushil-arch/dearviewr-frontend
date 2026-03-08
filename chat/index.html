@@ -1,6 +1,13 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Chat | DearViewr</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Chat | DearViewr</title>
+
+<style>
 
 body{
 margin:0;
@@ -71,9 +78,92 @@ font-size:13px;
 opacity:.7;
 }
 
-</style></head><body><div class="header">Chat
+</style>
 
-</div><div class="search"><input type="text" placeholder="Search users"></div><div class="chat-list" id="chatList"><div class="chat-item" onclick="openChat(1)"><div class="avatar"></div><div class="chat-info"><div class="username">Creator</div><div class="last-msg">Hello</div></div></div></div><script>
+</head>
+
+<body>
+
+<div class="header">
+Chat
+</div>
+
+<div class="search">
+<input type="text" placeholder="Search users">
+</div>
+
+<div class="chat-list" id="chatList">
+
+<div style="padding:20px;text-align:center;">
+Loading users...
+</div>
+
+</div>
+
+<script>
+
+const API_BASE="https://dearviewr.in/api"
+
+async function loadUsers(){
+
+const token=localStorage.getItem("access_token")
+
+if(!token){
+
+window.location.href="/auth/login.html"
+
+return
+
+}
+
+try{
+
+const res=await fetch(API_BASE+"/chat/users",{
+
+headers:{
+Authorization:"Bearer "+token
+}
+
+})
+
+const users=await res.json()
+
+const list=document.getElementById("chatList")
+
+list.innerHTML=""
+
+users.forEach(u=>{
+
+const div=document.createElement("div")
+
+div.className="chat-item"
+
+div.onclick=()=>openChat(u.id)
+
+div.innerHTML=`
+
+<div class="avatar"></div>
+
+<div class="chat-info">
+
+<div class="username">@${u.username}</div>
+
+<div class="last-msg">Start conversation</div>
+
+</div>
+`
+
+list.appendChild(div)
+
+})
+
+}catch(err){
+
+console.error(err)
+
+}
+
+}
 
 function openChat(userId){
 
@@ -81,4 +171,9 @@ window.location.href="/chat/room.html?user="+userId
 
 }
 
-</script></body></html>
+loadUsers()
+
+</script>
+
+</body>
+</html>
